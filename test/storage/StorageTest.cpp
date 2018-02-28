@@ -55,7 +55,7 @@ TEST(StorageTest, BigTest) {
 
     std::stringstream ss;
 
-    for(long i=0; i<100000; ++i)
+    for(long i=0; i<1000; ++i)
     {
         ss << "Key" << i;
         std::string key = ss.str();
@@ -66,7 +66,7 @@ TEST(StorageTest, BigTest) {
         storage.Put(key, val);
     }
     
-    for(long i=99999; i>=0; --i)
+    for(long i=999; i>=0; --i)
     {
         ss << "Key" << i;
         std::string key = ss.str();
