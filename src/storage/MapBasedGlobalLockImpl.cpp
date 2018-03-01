@@ -14,7 +14,7 @@ bool MapBasedGlobalLockImpl::Put(const std::string &key, const std::string &valu
 		return false;
 	}
 
-	std::map<std::string, Entry*>::iterator it = _backend.find(key);
+	std::unordered_map<std::string, Entry*>::iterator it = _backend.find(key);
 	if(it == _backend.end()){
 		//Element does't exist
 		//Clear space for the element
@@ -56,7 +56,7 @@ bool MapBasedGlobalLockImpl::Put(const std::string &key, const std::string &valu
 bool MapBasedGlobalLockImpl::PutIfAbsent(const std::string &key, const std::string &value) { 
 	op_mutex.lock();
 
-	std::map<std::string, Entry*>::iterator it = _backend.find(key);
+	std::unordered_map<std::string, Entry*>::iterator it = _backend.find(key);
 	if(it == _backend.end()){
 		//Check if the element can be put
 		if(key.size() + value.size() > _max_size){
@@ -95,7 +95,7 @@ bool MapBasedGlobalLockImpl::Set(const std::string &key, const std::string &valu
 	op_mutex.lock();
 
 	//Check if the element exists
-	std::map<std::string, Entry*>::iterator it = _backend.find(key);
+	std::unordered_map<std::string, Entry*>::iterator it = _backend.find(key);
 	if(it == _backend.end()){
 		op_mutex.unlock();
 		return false;
@@ -125,7 +125,7 @@ bool MapBasedGlobalLockImpl::Delete(const std::string &key) {
 	op_mutex.lock();
 
 	//Check if the element exists
-	std::map<std::string, Entry*>::iterator it = _backend.find(key);
+	std::unordered_map<std::string, Entry*>::iterator it = _backend.find(key);
 	if(it == _backend.end()){
 		op_mutex.unlock();
 		return false;
@@ -157,7 +157,7 @@ bool MapBasedGlobalLockImpl::Get(const std::string &key, std::string &value) con
 	op_mutex.lock();
 
 	//Check if the element exists
-	std::map<std::string, Entry*>::iterator it = _backend.find(key);
+	std::unordered_map<std::string, Entry*>::iterator it = _backend.find(key);
 	if(it == _backend.end()){
 		op_mutex.unlock();
 		return false;
